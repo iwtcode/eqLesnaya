@@ -81,7 +81,7 @@ if [[ "$GO" == "true" ]]; then
 fi
 
 if [[ "$FLUTTER" == "true" ]]; then
-  cd "$(dirname "$0")/../electronicqueue-frontend" || { echo "Failed to change directory to electronicqueue-frontend."; exit 1; }
+  cd "$(dirname "$0")/../eqLesnaya-front" || { echo "Failed to change directory to eqLesnaya-front."; exit 1; }
   echo "Cleaning Flutter project..."
   if flutter clean; then
     echo "Flutter project cleaned."
@@ -108,7 +108,7 @@ fi
 
 if [[ "$FLUTTER_DOCKER" == "true" ]]; then
   echo "Full cleanup for Flutter: containers, images, volumes, orphans..."
-  cd "$(dirname "$0")/../electronicqueue-frontend" || { echo "Failed to change directory to electronicqueue-frontend."; exit 1; }
+  cd "$(dirname "$0")/../eqLesnaya-front" || { echo "Failed to change directory to eqLesnaya-front."; exit 1; }
   if ! docker info > /dev/null 2>&1; then
     echo "Make sure that Docker Engine is running. Try restarting Docker Desktop."
     exit 1

@@ -1,0 +1,2292 @@
+basePath: /
+definitions:
+  handlers.CheckInByPhoneRequest:
+    properties:
+      phone:
+        type: string
+    required:
+    - phone
+    type: object
+  handlers.CompleteAppointmentRequest:
+    properties:
+      ticket_id:
+        example: 1
+        type: integer
+    required:
+    - ticket_id
+    type: object
+  handlers.ConfirmAppointmentRequest:
+    properties:
+      ticket_id:
+        type: integer
+    required:
+    - ticket_id
+    type: object
+  handlers.ConfirmationRequest:
+    properties:
+      action:
+        example: print_ticket
+        type: string
+      service_id:
+        example: make_appointment
+        type: string
+    required:
+    - action
+    - service_id
+    type: object
+  handlers.ConfirmationResponse:
+    properties:
+      message:
+        example: Ваш электронный талон
+        type: string
+      service_name:
+        example: Записаться к врачу
+        type: string
+      ticket_number:
+        example: A001
+        type: string
+      timeout:
+        example: 10
+        type: integer
+    type: object
+  handlers.CreateAdministratorRequest:
+    properties:
+      full_name:
+        type: string
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - full_name
+    - login
+    - password
+    type: object
+  handlers.CreateDoctorRequest:
+    properties:
+      full_name:
+        type: string
+      login:
+        type: string
+      password:
+        type: string
+      specialization:
+        type: string
+    required:
+    - full_name
+    - login
+    - password
+    - specialization
+    type: object
+  handlers.CreateRegistrarRequest:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+      window_number:
+        type: integer
+    required:
+    - login
+    - password
+    - window_number
+    type: object
+  handlers.DoctorScreenResponse:
+    properties:
+      cabinet_number:
+        type: integer
+      doctor_name:
+        type: string
+      doctor_specialty:
+        type: string
+      message:
+        type: string
+      queue:
+        items:
+          $ref: '#/definitions/models.DoctorQueueTicketResponse'
+        type: array
+    type: object
+  handlers.EndBreakRequest:
+    properties:
+      doctor_id:
+        example: 1
+        type: integer
+    required:
+    - doctor_id
+    type: object
+  handlers.LoginRequest:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  handlers.ServiceSelectionRequest:
+    properties:
+      service_id:
+        example: make_appointment
+        type: string
+    required:
+    - service_id
+    type: object
+  handlers.ServiceSelectionResponse:
+    properties:
+      action:
+        example: confirm_print
+        type: string
+      service_name:
+        example: Записаться к врачу
+        type: string
+    type: object
+  handlers.SetActiveRequest:
+    properties:
+      doctor_id:
+        example: 1
+        type: integer
+    required:
+    - doctor_id
+    type: object
+  handlers.SetInactiveRequest:
+    properties:
+      doctor_id:
+        example: 1
+        type: integer
+    required:
+    - doctor_id
+    type: object
+  handlers.StartAppointmentRequest:
+    properties:
+      ticket_id:
+        example: 1
+        type: integer
+    required:
+    - ticket_id
+    type: object
+  handlers.StartBreakRequest:
+    properties:
+      doctor_id:
+        example: 1
+        type: integer
+    required:
+    - doctor_id
+    type: object
+  handlers.UpdateProcessRequest:
+    properties:
+      is_enabled:
+        type: boolean
+    type: object
+  models.AdResponse:
+    properties:
+      created_at:
+        type: string
+      duration_sec:
+        description: omitempty уберет поле, если оно nil
+        type: integer
+      id:
+        type: integer
+      is_enabled:
+        type: boolean
+      media_type:
+        type: string
+      picture:
+        type: string
+      reception_on:
+        type: boolean
+      repeat_count:
+        description: omitempty уберет поле, если оно nil
+        type: integer
+      schedule_on:
+        type: boolean
+      updated_at:
+        type: string
+      video:
+        type: string
+    type: object
+  models.Appointment:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      patient:
+        $ref: '#/definitions/models.Patient'
+      patient_id:
+        type: integer
+      schedule:
+        $ref: '#/definitions/models.Schedule'
+      schedule_id:
+        type: integer
+      ticket:
+        $ref: '#/definitions/models.Ticket'
+      ticket_id:
+        type: integer
+    type: object
+  models.BusinessProcess:
+    properties:
+      is_enabled:
+        type: boolean
+      process_name:
+        type: string
+    type: object
+  models.CreateAdRequest:
+    properties:
+      duration_sec:
+        description: '--- ИЗМЕНЕНИЕ: gt=0 на gte=1 ---'
+        minimum: 1
+        type: integer
+      is_enabled:
+        type: boolean
+      picture:
+        type: string
+      reception_on:
+        type: boolean
+      repeat_count:
+        description: '--- ИЗМЕНЕНИЕ: gt=0 на gte=1 ---'
+        minimum: 1
+        type: integer
+      schedule_on:
+        type: boolean
+      video:
+        type: string
+    type: object
+  models.CreateAppointmentRequest:
+    properties:
+      patient_id:
+        type: integer
+      schedule_id:
+        type: integer
+      ticket_id:
+        type: integer
+    required:
+    - schedule_id
+    type: object
+  models.CreatePatientRequest:
+    properties:
+      birth_date:
+        type: string
+      full_name:
+        type: string
+      oms_number:
+        type: string
+      passport_number:
+        type: string
+      passport_series:
+        type: string
+      phone:
+        type: string
+    required:
+    - birth_date
+    - full_name
+    - oms_number
+    - passport_number
+    - passport_series
+    type: object
+  models.CreateScheduleRequest:
+    properties:
+      cabinet:
+        example: 101
+        type: integer
+      date:
+        example: "2025-07-20T00:00:00Z"
+        type: string
+      doctor_id:
+        example: 1
+        type: integer
+      end_time:
+        example: "2025-01-01T10:00:00Z"
+        type: string
+      is_available:
+        example: true
+        type: boolean
+      start_time:
+        example: "2025-01-01T09:00:00Z"
+        type: string
+    required:
+    - date
+    - doctor_id
+    - end_time
+    - start_time
+    type: object
+  models.DeleteRequest:
+    properties:
+      filters:
+        $ref: '#/definitions/models.Filters'
+    required:
+    - filters
+    type: object
+  models.Doctor:
+    properties:
+      full_name:
+        type: string
+      id:
+        type: integer
+      login:
+        type: string
+      schedules:
+        items:
+          $ref: '#/definitions/models.Schedule'
+        type: array
+      specialization:
+        type: string
+      status:
+        $ref: '#/definitions/models.DoctorStatus'
+    type: object
+  models.DoctorQueueTicketResponse:
+    properties:
+      patient_full_name:
+        type: string
+      start_time:
+        type: string
+      status:
+        $ref: '#/definitions/models.TicketStatus'
+      ticket_number:
+        type: string
+    type: object
+  models.DoctorStatus:
+    enum:
+    - активен
+    - неактивен
+    - перерыв
+    type: string
+    x-enum-varnames:
+    - DoctorStatusActive
+    - DoctorStatusInactive
+    - DoctorStatusOnBreak
+  models.FilterCondition:
+    properties:
+      field:
+        type: string
+      operator:
+        type: string
+      value: {}
+    type: object
+  models.Filters:
+    properties:
+      conditions:
+        items:
+          $ref: '#/definitions/models.FilterCondition'
+        type: array
+      logical_operator:
+        type: string
+    type: object
+  models.GetDataRequest:
+    properties:
+      filters:
+        $ref: '#/definitions/models.Filters'
+      limit:
+        type: integer
+      page:
+        type: integer
+    type: object
+  models.InsertRequest:
+    properties:
+      data: {}
+    required:
+    - data
+    type: object
+  models.Patient:
+    properties:
+      birth_date:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      oms_number:
+        type: string
+      passport_number:
+        type: string
+      passport_series:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.Schedule:
+    properties:
+      cabinet:
+        type: integer
+      date:
+        type: string
+      doctor:
+        $ref: '#/definitions/models.Doctor'
+      doctor_id:
+        type: integer
+      end_time:
+        type: string
+      is_available:
+        type: boolean
+      schedule_id:
+        type: integer
+      start_time:
+        type: string
+    type: object
+  models.ScheduleWithAppointmentInfo:
+    properties:
+      appointment:
+        $ref: '#/definitions/models.Appointment'
+      cabinet:
+        type: integer
+      date:
+        type: string
+      doctor:
+        $ref: '#/definitions/models.Doctor'
+      doctor_id:
+        type: integer
+      end_time:
+        type: string
+      is_available:
+        type: boolean
+      schedule_id:
+        type: integer
+      start_time:
+        type: string
+      ticket_number:
+        type: string
+    type: object
+  models.Service:
+    properties:
+      id:
+        type: integer
+      letter:
+        type: string
+      service_id:
+        type: string
+      title:
+        type: string
+    type: object
+  models.Ticket:
+    properties:
+      called_at:
+        type: string
+      completed_at:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      qr_code:
+        items:
+          type: integer
+        type: array
+      service_type:
+        type: string
+      started_at:
+        type: string
+      status:
+        $ref: '#/definitions/models.TicketStatus'
+      ticket_number:
+        type: string
+      window_number:
+        type: integer
+    type: object
+  models.TicketResponse:
+    properties:
+      called_at:
+        type: string
+      completed_at:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      qr_code:
+        items:
+          type: integer
+        type: array
+      service_type:
+        type: string
+      started_at:
+        type: string
+      status:
+        $ref: '#/definitions/models.TicketStatus'
+      ticket_number:
+        type: string
+      window_number:
+        type: integer
+    type: object
+  models.TicketStatus:
+    enum:
+    - ожидает
+    - приглашен
+    - на_приеме
+    - завершен
+    - зарегистрирован
+    type: string
+    x-enum-varnames:
+    - StatusWaiting
+    - StatusInvited
+    - StatusInProgress
+    - StatusCompleted
+    - StatusRegistered
+  models.UpdateAdRequest:
+    properties:
+      duration_sec:
+        description: '--- ИЗМЕНЕНИЕ: gt=0 на gte=1 ---'
+        minimum: 1
+        type: integer
+      is_enabled:
+        type: boolean
+      picture:
+        type: string
+      reception_on:
+        type: boolean
+      repeat_count:
+        description: '--- ИЗМЕНЕНИЕ: gt=0 на gte=1 ---'
+        minimum: 1
+        type: integer
+      schedule_on:
+        type: boolean
+      video:
+        type: string
+    type: object
+  models.UpdateRequest:
+    properties:
+      data:
+        additionalProperties: true
+        type: object
+      filters:
+        $ref: '#/definitions/models.Filters'
+    required:
+    - data
+    - filters
+    type: object
+  services.AppointmentDetailsResponse:
+    properties:
+      appointment_id:
+        type: integer
+      cabinet:
+        type: integer
+      date:
+        type: string
+      doctor_name:
+        type: string
+      doctor_specialization:
+        type: string
+      is_future:
+        type: boolean
+      patient_name:
+        type: string
+      start_time:
+        type: string
+      ticket_number:
+        type: string
+    type: object
+  services.DoctorScheduleModel:
+    properties:
+      full_name:
+        type: string
+      id:
+        type: integer
+      slots:
+        items:
+          $ref: '#/definitions/services.TimeSlotModel'
+        type: array
+      specialization:
+        type: string
+    type: object
+  services.TimeSlotModel:
+    properties:
+      cabinet:
+        type: integer
+      end_time:
+        type: string
+      is_available:
+        type: boolean
+      start_time:
+        type: string
+    type: object
+  services.TodayScheduleResponse:
+    properties:
+      date:
+        type: string
+      doctors:
+        items:
+          $ref: '#/definitions/services.DoctorScheduleModel'
+        type: array
+      max_end_time:
+        type: string
+      min_start_time:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API для системы электронной очереди
+  title: Electronic Queue API
+  version: "1.0"
+paths:
+  /api/admin/ads:
+    get:
+      description: Возвращает список всех рекламных материалов без самих изображений.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список рекламных материалов
+          schema:
+            items:
+              $ref: '#/definitions/models.AdResponse'
+            type: array
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Получить список всех рекламных материалов (Админ)
+      tags:
+      - admin
+    post:
+      consumes:
+      - application/json
+      description: Загружает новое рекламное объявление.
+      parameters:
+      - description: Данные для создания
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAdRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Созданный материал
+          schema:
+            $ref: '#/definitions/models.AdResponse'
+        "400":
+          description: Ошибка в запросе
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Создать рекламный материал (Админ)
+      tags:
+      - admin
+  /api/admin/ads/{id}:
+    delete:
+      description: Удаляет рекламное объявление по ID.
+      parameters:
+      - description: ID рекламного материала
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Удалено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Неверный ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка удаления
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Удалить рекламный материал (Админ)
+      tags:
+      - admin
+    get:
+      description: Возвращает полную информацию о рекламном материале, включая изображение.
+      parameters:
+      - description: ID рекламного материала
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Рекламный материал
+          schema:
+            $ref: '#/definitions/models.AdResponse'
+        "400":
+          description: Неверный ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Получить рекламный материал по ID (Админ)
+      tags:
+      - admin
+    patch:
+      consumes:
+      - application/json
+      description: Обновляет существующее рекламное объявление.
+      parameters:
+      - description: ID рекламного материала
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные для обновления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateAdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Обновленный материал
+          schema:
+            $ref: '#/definitions/models.AdResponse'
+        "400":
+          description: Ошибка в запросе
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Не найдено
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Обновить рекламный материал (Админ)
+      tags:
+      - admin
+  /api/admin/create/administrator:
+    post:
+      consumes:
+      - application/json
+      description: Создает нового пользователя с ролью "администратор". Требует INTERNAL_API_KEY.
+      parameters:
+      - description: Данные нового администратора
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateAdministratorRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Администратор успешно создан
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Ошибка: неверный запрос'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: 'Ошибка: логин уже занят'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Создать нового администратора (Админ)
+      tags:
+      - admin
+  /api/admin/create/doctor:
+    post:
+      consumes:
+      - application/json
+      description: Создает нового пользователя с ролью "врач". Требует INTERNAL_API_KEY.
+      parameters:
+      - description: Данные нового врача
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateDoctorRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Врач успешно создан
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Ошибка: неверный запрос'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: 'Ошибка: логин уже занят'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Создать нового врача (Админ)
+      tags:
+      - admin
+  /api/admin/create/registrar:
+    post:
+      consumes:
+      - application/json
+      description: Создает нового пользователя с ролью "регистратор". Требует INTERNAL_API_KEY.
+      parameters:
+      - description: Данные нового регистратора
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateRegistrarRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Регистратор успешно создан
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Ошибка: неверный запрос'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: 'Ошибка: логин уже занят'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Создать нового регистратора (Админ)
+      tags:
+      - admin
+  /api/admin/processes:
+    get:
+      description: Возвращает список всех бизнес-процессов и их текущее состояние
+        (включен/отключен).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список процессов
+          schema:
+            items:
+              $ref: '#/definitions/models.BusinessProcess'
+            type: array
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Получить статусы всех бизнес-процессов (Админ)
+      tags:
+      - admin
+  /api/admin/processes/{name}:
+    patch:
+      consumes:
+      - application/json
+      description: Включает или отключает указанный бизнес-процесс.
+      parameters:
+      - description: Имя процесса
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: Новое состояние
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateProcessRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Обновленный процесс
+          schema:
+            $ref: '#/definitions/models.BusinessProcess'
+        "400":
+          description: Ошибка в запросе
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Процесс не найден
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Обновить статус бизнес-процесса (Админ)
+      tags:
+      - admin
+  /api/admin/schedules:
+    post:
+      consumes:
+      - application/json
+      description: Создает новый временной слот для врача. Требует INTERNAL_API_KEY.
+      parameters:
+      - description: Данные для создания слота
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateScheduleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Успешно созданный слот
+          schema:
+            $ref: '#/definitions/models.Schedule'
+        "400":
+          description: 'Ошибка: неверный формат запроса'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Отсутствует ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Неверный ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Создать слот в расписании (Админ)
+      tags:
+      - admin
+  /api/admin/schedules/{id}:
+    delete:
+      description: Удаляет временной слот из расписания по его ID. Требует INTERNAL_API_KEY.
+      parameters:
+      - description: ID слота расписания
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Слот успешно удален
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'Ошибка: неверный ID'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Отсутствует ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Неверный ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Слот не найден
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Удалить слот из расписания (Админ)
+      tags:
+      - admin
+  /api/ads/enabled:
+    get:
+      description: Возвращает список всех включенных рекламных материалов с изображениями.
+      parameters:
+      - description: Тип экрана ('reception' или 'schedule')
+        in: query
+        name: screen
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список активных рекламных материалов
+          schema:
+            items:
+              $ref: '#/definitions/models.AdResponse'
+            type: array
+        "400":
+          description: Неверный тип экрана
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить активные рекламные материалы (Табло)
+      tags:
+      - ads
+  /api/audio/announce:
+    get:
+      description: Создает и возвращает WAV файл с озвучкой номера талона и окна.
+      parameters:
+      - description: Номер талона (например, A007 или C21)
+        in: query
+        name: ticket
+        required: true
+        type: string
+      - description: Номер окна (например, 5)
+        in: query
+        name: window
+        required: true
+        type: string
+      produces:
+      - audio/wav
+      responses:
+        "200":
+          description: WAV файл оповещения
+          schema:
+            type: file
+        "400":
+          description: 'Ошибка: неверные параметры'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Сгенерировать звуковое оповещение
+      tags:
+      - audio
+  /api/auth/login/administrator:
+    post:
+      consumes:
+      - application/json
+      description: Принимает логин и пароль, возвращает JWT токен.
+      parameters:
+      - description: Учетные данные
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ с токеном
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'Ошибка: неверный запрос'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: 'Ошибка: неверные учетные данные'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Аутентификация администратора
+      tags:
+      - auth
+  /api/auth/login/doctor:
+    post:
+      consumes:
+      - application/json
+      description: Принимает логин и пароль, возвращает JWT токен и информацию о враче.
+      parameters:
+      - description: Учетные данные
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ с токеном и данными врача
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Ошибка: неверный запрос'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: 'Ошибка: неверные учетные данные'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Аутентификация врача
+      tags:
+      - auth
+  /api/auth/login/registrar:
+    post:
+      consumes:
+      - application/json
+      description: Принимает логин и пароль, возвращает JWT токен.
+      parameters:
+      - description: Учетные данные
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ с токеном
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'Ошибка: неверный запрос'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: 'Ошибка: неверные учетные данные'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Аутентификация регистратора
+      tags:
+      - auth
+  /api/database/{table}/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Позволяет удалить записи из указанной таблицы по заданным фильтрам.
+      parameters:
+      - description: Имя таблицы для удаления (e.g., tickets, doctors)
+        in: path
+        name: table
+        required: true
+        type: string
+      - description: Фильтры для удаления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные успешно удалены
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Ошибка в запросе (например, удаление без фильтров)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Отсутствует ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Неверный ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Удаление данных из таблицы
+      tags:
+      - database
+  /api/database/{table}/insert:
+    post:
+      consumes:
+      - application/json
+      description: Позволяет вставить одну или несколько записей в указанную таблицу.
+      parameters:
+      - description: Имя таблицы для вставки (e.g., services, doctors)
+        in: path
+        name: table
+        required: true
+        type: string
+      - description: Данные для вставки
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.InsertRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Данные успешно вставлены
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Ошибка в запросе
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Отсутствует ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Неверный ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Вставка данных в таблицу
+      tags:
+      - database
+  /api/database/{table}/select:
+    post:
+      consumes:
+      - application/json
+      description: Позволяет получить данные из указанной таблицы с фильтрацией и
+        пагинацией.
+      parameters:
+      - description: Имя таблицы для получения данных (e.g., tickets, doctors)
+        in: path
+        name: table
+        required: true
+        type: string
+      - description: Фильтры и параметры пагинации
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.GetDataRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ с данными
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Ошибка в запросе (неверная таблица, поле или оператор)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Отсутствует ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Неверный ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Получение данных из таблицы
+      tags:
+      - database
+  /api/database/{table}/update:
+    patch:
+      consumes:
+      - application/json
+      description: Позволяет обновить записи в указанной таблице по заданным фильтрам.
+      parameters:
+      - description: Имя таблицы для обновления (e.g., tickets, doctors)
+        in: path
+        name: table
+        required: true
+        type: string
+      - description: Данные и фильтры для обновления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные успешно обновлены
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Ошибка в запросе (например, обновление без фильтров)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Отсутствует ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Неверный ключ API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Обновление данных в таблице
+      tags:
+      - database
+  /api/doctor/active:
+    get:
+      description: Возвращает список всех врачей в системе. Используется для заполнения
+        выпадающих списков на клиенте.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Массив моделей врачей
+          schema:
+            items:
+              $ref: '#/definitions/models.Doctor'
+            type: array
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить список всех врачей
+      tags:
+      - doctor
+  /api/doctor/cabinets/active:
+    get:
+      description: Возвращает список всех уникальных номеров кабинетов, когда-либо
+        существовавших в расписании.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Массив номеров кабинетов
+          schema:
+            items:
+              type: integer
+            type: array
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить список всех существующих кабинетов
+      tags:
+      - doctor
+  /api/doctor/complete-appointment:
+    post:
+      consumes:
+      - application/json
+      description: Завершает прием пациента по талону. Статус талона должен быть 'на_приеме'.
+      parameters:
+      - description: Данные для завершения приема
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CompleteAppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Appointment completed successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Неверный запрос или статус талона
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Завершить прием пациента
+      tags:
+      - doctor
+  /api/doctor/end-break:
+    post:
+      consumes:
+      - application/json
+      description: Завершает перерыв врача. Статус врача должен быть 'перерыв'.
+      parameters:
+      - description: Данные для завершения перерыва
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.EndBreakRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Break ended successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Неверный запрос или статус врача
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Завершить перерыв врача
+      tags:
+      - doctor
+  /api/doctor/screen-updates/{cabinet_number}:
+    get:
+      description: Отправляет начальное состояние и последующие обновления статуса
+        приема через Server-Sent Events для конкретного кабинета.
+      parameters:
+      - description: Номер кабинета
+        in: path
+        name: cabinet_number
+        required: true
+        type: integer
+      produces:
+      - text/event-stream
+      responses:
+        "200":
+          description: Поток событий (см. реальную структуру ответа в коде)
+          schema:
+            $ref: '#/definitions/handlers.DoctorScreenResponse'
+        "400":
+          description: Неверный формат номера кабинета
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить обновления для табло врача
+      tags:
+      - doctor
+  /api/doctor/set-active:
+    post:
+      consumes:
+      - application/json
+      description: Устанавливает статус врача как активный (при входе в систему).
+      parameters:
+      - description: Данные для установки статуса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SetActiveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doctor status set to active
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Неверный запрос
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Установить статус врача как активный
+      tags:
+      - doctor
+  /api/doctor/set-inactive:
+    post:
+      consumes:
+      - application/json
+      description: Устанавливает статус врача как неактивный (при выходе из системы).
+      parameters:
+      - description: Данные для установки статуса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SetInactiveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doctor status set to inactive
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Неверный запрос
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Установить статус врача как неактивный
+      tags:
+      - doctor
+  /api/doctor/start-appointment:
+    post:
+      consumes:
+      - application/json
+      description: Начинает прием пациента по талону. Статус талона должен быть 'зарегистрирован'.
+      parameters:
+      - description: Данные для начала приема
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.StartAppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Appointment started successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Неверный запрос или статус талона
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Начать прием пациента
+      tags:
+      - doctor
+  /api/doctor/start-break:
+    post:
+      consumes:
+      - application/json
+      description: Начинает перерыв врача. Статус врача должен быть 'активен'.
+      parameters:
+      - description: Данные для начала перерыва
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.StartBreakRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Break started successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Неверный запрос или статус врача
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Начать перерыв врача
+      tags:
+      - doctor
+  /api/doctor/tickets/in-progress:
+    get:
+      description: Возвращает список талонов со статусом "на_приеме". Обычно это один
+        талон.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список талонов
+          schema:
+            items:
+              $ref: '#/definitions/models.TicketResponse'
+            type: array
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить талоны на приеме
+      tags:
+      - doctor
+  /api/doctor/tickets/registered:
+    get:
+      description: Возвращает список талонов со статусом "зарегистрирован", т.е. очередь
+        непосредственно к врачу.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список талонов
+          schema:
+            items:
+              $ref: '#/definitions/models.TicketResponse'
+            type: array
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить очередь к врачу
+      tags:
+      - doctor
+  /api/processes/{name}:
+    get:
+      description: Возвращает текущее состояние (включен/отключен) для указанного
+        бизнес-процесса.
+      parameters:
+      - description: Имя процесса
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Статус процесса
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Получить статус конкретного бизнес-процесса
+      tags:
+      - processes
+  /api/registrar/appointments:
+    post:
+      consumes:
+      - application/json
+      description: Создает новую запись на прием для пациента, связывая ее со слотом
+        в расписании и исходным талоном. Обновляет слот как занятый.
+      parameters:
+      - description: Данные для создания записи
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Успешно созданная запись
+          schema:
+            $ref: '#/definitions/models.Appointment'
+        "400":
+          description: 'Ошибка: неверный формат запроса'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера (например, слот уже занят)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Создать новую запись на прием
+      tags:
+      - registrar
+  /api/registrar/appointments/{id}:
+    delete:
+      description: Удаляет запись на прием и освобождает связанный с ней слот в расписании.
+      parameters:
+      - description: ID Записи
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запись успешно удалена
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'Ошибка: неверный ID'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Запись не найдена
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Удалить будущую запись
+      tags:
+      - registrar
+  /api/registrar/appointments/{id}/confirm:
+    patch:
+      consumes:
+      - application/json
+      description: Привязывает существующую запись к новому талону, который пациент
+        получил сегодня, и меняет статус талона на 'зарегистрирован', отправляя пациента
+        в очередь к врачу.
+      parameters:
+      - description: ID Записи для подтверждения
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: ID нового талона
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ConfirmAppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Обновленная запись с привязанным талоном
+          schema:
+            $ref: '#/definitions/models.Appointment'
+        "400":
+          description: 'Ошибка: неверный формат запроса'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера (запись или талон не найдены, или запись уже
+            подтверждена)
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Подтвердить явку по записи
+      tags:
+      - registrar
+  /api/registrar/patients:
+    post:
+      consumes:
+      - application/json
+      description: Создает новую запись о пациенте в базе данных. Используется, когда
+        пациент не найден через поиск.
+      parameters:
+      - description: Данные нового пациента
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreatePatientRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Успешно созданный пациент
+          schema:
+            $ref: '#/definitions/models.Patient'
+        "400":
+          description: 'Ошибка: неверный формат запроса'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Создать нового пациента
+      tags:
+      - registrar
+  /api/registrar/patients/{patient_id}/appointments:
+    get:
+      description: Возвращает все прошлые и будущие записи для указанного пациента.
+      parameters:
+      - description: ID Пациента
+        in: path
+        name: patient_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Массив записей пациента
+          schema:
+            items:
+              $ref: '#/definitions/services.AppointmentDetailsResponse'
+            type: array
+        "400":
+          description: 'Ошибка: неверный ID пациента'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Получить историю записей пациента
+      tags:
+      - registrar
+  /api/registrar/patients/search:
+    get:
+      description: Ищет пациентов по частичному совпадению в ФИО, номере полиса ОМС
+        или полному номеру паспорта (серия + номер без пробелов). Возвращает до 10
+        совпадений.
+      parameters:
+      - description: Строка для поиска (минимум 2 символа)
+        in: query
+        name: query
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Массив найденных пациентов
+          schema:
+            items:
+              $ref: '#/definitions/models.Patient'
+            type: array
+        "400":
+          description: 'Ошибка: отсутствует или слишком короткий параметр поиска'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Поиск пациентов по ФИО, ОМС или паспорту
+      tags:
+      - registrar
+  /api/registrar/schedules/doctor/{doctor_id}:
+    get:
+      description: Возвращает все временные слоты врача на указанную дату, включая
+        информацию о том, кто записан в занятые слоты.
+      parameters:
+      - description: ID Врача
+        in: path
+        name: doctor_id
+        required: true
+        type: integer
+      - description: Дата в формате YYYY-MM-DD
+        in: query
+        name: date
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Массив слотов расписания с информацией о записях
+          schema:
+            items:
+              $ref: '#/definitions/models.ScheduleWithAppointmentInfo'
+            type: array
+        "400":
+          description: 'Ошибка: неверный ID или формат даты'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Получить расписание врача с информацией о записях
+      tags:
+      - registrar
+  /api/schedules/today/updates:
+    get:
+      description: 'Отправляет начальное состояние расписания (`event: schedule_initial`)
+        и последующие изменения (`event: schedule_update`) через Server-Sent Events.'
+      produces:
+      - text/event-stream
+      responses:
+        "200":
+          description: Поток событий с состоянием расписания
+          schema:
+            $ref: '#/definitions/services.TodayScheduleResponse'
+      summary: Получить обновления расписания на сегодня
+      tags:
+      - schedule
+  /api/tickets/active:
+    get:
+      description: Возвращает список всех талонов в статусе 'ожидает' и 'приглашен'
+        для первоначальной загрузки табло.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список активных талонов
+          schema:
+            items:
+              $ref: '#/definitions/models.TicketResponse'
+            type: array
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить все активные талоны
+      tags:
+      - tickets
+  /api/tickets/appointment/phone:
+    post:
+      consumes:
+      - application/json
+      description: Проверяет наличие записи по номеру телефона и выдает приоритетный
+        талон, если прием скоро
+      parameters:
+      - description: Номер телефона пациента
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CheckInByPhoneRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ответ с данными талона
+          schema:
+            $ref: '#/definitions/handlers.ConfirmationResponse'
+        "400":
+          description: 'Ошибка: не передан номер телефона'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Запись не найдена или еще не время
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Регистрация на прием по номеру телефона
+      tags:
+      - tickets
+  /api/tickets/download/{ticket_number}:
+    get:
+      description: Позволяет скачать изображение талона по номеру
+      parameters:
+      - description: Номер талона
+        in: path
+        name: ticket_number
+        required: true
+        type: string
+      produces:
+      - image/png
+      responses:
+        "200":
+          description: Изображение талона
+          schema:
+            type: file
+        "400":
+          description: 'Ошибка: не передан ticket_number'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Талон не найден
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Скачать изображение талона
+      tags:
+      - tickets
+  /api/tickets/print/confirmation:
+    post:
+      consumes:
+      - application/json
+      description: Обрабатывает подтверждение действия (печать талона или получение
+        электронного)
+      parameters:
+      - description: Данные для подтверждения действия
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ConfirmationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ответ после подтверждения действия
+          schema:
+            $ref: '#/definitions/handlers.ConfirmationResponse'
+        "400":
+          description: 'Ошибка: не передан service_id или action'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Подтверждение действия
+      tags:
+      - tickets
+  /api/tickets/print/selection:
+    post:
+      consumes:
+      - application/json
+      description: Определяет следующий шаг после выбора услуги
+      parameters:
+      - description: Данные для выбора услуги
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ServiceSelectionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Следующий шаг после выбора услуги
+          schema:
+            $ref: '#/definitions/handlers.ServiceSelectionResponse'
+        "400":
+          description: 'Ошибка: не передан service_id'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Выбор услуги
+      tags:
+      - tickets
+  /api/tickets/services:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список доступных услуг
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список услуг
+          schema:
+            additionalProperties:
+              items:
+                $ref: '#/definitions/models.Service'
+              type: array
+            type: object
+      summary: Получить список услуг
+      tags:
+      - tickets
+  /api/tickets/start:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает стартовую информацию для клиента (например, текст кнопки)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Успешный ответ: текст кнопки'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить стартовую информацию
+      tags:
+      - tickets
+  /api/tickets/view/{ticket_number}:
+    get:
+      description: Позволяет просмотреть изображение талона в браузере по номеру
+      parameters:
+      - description: Номер талона
+        in: path
+        name: ticket_number
+        required: true
+        type: string
+      produces:
+      - image/png
+      responses:
+        "200":
+          description: Изображение талона
+          schema:
+            type: file
+        "400":
+          description: 'Ошибка: не передан ticket_number'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Талон не найден
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Просмотр изображения талона
+      tags:
+      - tickets
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-API-KEY
+    type: apiKey
+swagger: "2.0"

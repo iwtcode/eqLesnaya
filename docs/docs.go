@@ -1469,6 +1469,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/doctor/queue-all": {
+            "get": {
+                "description": "Возвращает список всех талонов со статусами 'зарегистрирован' и 'на_приеме' для всех кабинетов.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "doctor"
+                ],
+                "summary": "Получить очередь ко всем врачебным кабинетам (для нового табло)",
+                "responses": {
+                    "200": {
+                        "description": "Массив талонов в очереди",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DoctorQueueTicketResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/doctor/screen-updates/{cabinet_number}": {
             "get": {
                 "description": "Отправляет начальное состояние и последующие обновления статуса приема через Server-Sent Events для конкретного кабинета.",
@@ -3064,6 +3096,9 @@ const docTemplate = `{
         "models.DoctorQueueTicketResponse": {
             "type": "object",
             "properties": {
+                "cabinet_number": {
+                    "type": "integer"
+                },
                 "patient_full_name": {
                     "type": "string"
                 },

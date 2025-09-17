@@ -155,6 +155,33 @@ func (r *ticketRepo) FindTicketsForCabinetQueue(cabinetNumber int) ([]models.Doc
 	return results, nil
 }
 
+// FindAllTicketsForDoctorQueues извлекает все талоны со статусами 'на_приеме' и 'зарегистрирован'
+// для отображения на общем табло очереди к врачам.
+func (r *ticketRepo) FindAllTicketsForDoctorQueues() ([]models.DoctorQueueTicketResponse, error) {
+	var results []models.DoctorQueueTicketResponse
+	today := time.Now().Format("2006-01-02")
+
+	// Этот запрос объединяет информацию из нескольких таблиц:
+	// - tickets: для номера талона и статуса
+	// - appointments: для связи талона с расписанием
+	// - schedules: для получения номера кабинета и привязки к дате
+	// - patients: для получения ФИО пациента (если он есть)
+	err := r.db.Table("tickets").
+		Select("schedules.cabinet as cabinet_number, tickets.ticket_number, COALESCE(patients.full_name, 'Пациент по талону') as full_name, tickets.status").
+		Joins("JOIN appointments ON appointments.ticket_id = tickets.ticket_id").
+		Joins("JOIN schedules ON schedules.schedule_id = appointments.schedule_id").
+		Joins("LEFT JOIN patients ON patients.patient_id = appointments.patient_id").
+		Where("schedules.date = ? AND tickets.status IN ?",
+			today, []string{string(models.StatusInProgress), string(models.StatusRegistered)}).
+		Order("CASE WHEN tickets.status = 'на_приеме' THEN 0 ELSE 1 END, tickets.created_at ASC").
+		Find(&results).Error
+
+	if err != nil {
+		return nil, err
+	}
+	return results, nil
+}
+
 func (r *ticketRepo) FindByStatusAndDoctor(status models.TicketStatus, doctorID uint) ([]models.Ticket, error) {
 	var tickets []models.Ticket
 	err := r.db.Joins("JOIN appointments ON appointments.ticket_id = tickets.ticket_id").

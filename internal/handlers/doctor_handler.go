@@ -228,6 +228,26 @@ func (h *DoctorHandler) CompleteAppointment(c *gin.Context) {
 	})
 }
 
+// GetAllDoctorQueues godoc
+// @Summary      Получить очередь ко всем врачебным кабинетам (для нового табло)
+// @Description  Возвращает список всех талонов со статусами 'зарегистрирован' и 'на_приеме' для всех кабинетов.
+// @Tags         doctor
+// @Produce      json
+// @Success      200 {array} models.DoctorQueueTicketResponse "Массив талонов в очереди"
+// @Failure      500 {object} map[string]string "Внутренняя ошибка сервера"
+// @Router       /api/doctor/queue-all [get]
+func (h *DoctorHandler) GetAllDoctorQueues(c *gin.Context) {
+	log := logger.Default()
+	queue, err := h.doctorService.GetAllDoctorQueuesState()
+	if err != nil {
+		log.WithError(err).Error("GetAllDoctorQueues: не удалось получить данные из сервиса")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Не удалось получить данные об очередях"})
+		return
+	}
+
+	c.JSON(http.StatusOK, queue)
+}
+
 // StartBreak обрабатывает запрос на начало перерыва врача
 // @Summary      Начать перерыв врача
 // @Description  Начинает перерыв врача. Статус врача должен быть 'активен'.

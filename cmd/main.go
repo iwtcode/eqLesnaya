@@ -193,6 +193,8 @@ func setupRouter(broker *pubsub.Broker, db *gorm.DB, cfg *config.Config, process
 
 	r.GET("/tickets", middleware.CheckBusinessProcess(processService, "reception"), sseHandler(broker, "reception_sse"))
 
+	r.GET("/api/doctor/queue-all", middleware.CheckBusinessProcess(processService, "queue_doctor"), doctorHandler.GetAllDoctorQueues)
+
 	r.GET("/api/doctor/screen-updates/:cabinet_number", middleware.CheckBusinessProcess(processService, "queue_doctor"), doctorHandler.DoctorScreenUpdates)
 
 	auth := r.Group("/api/auth")

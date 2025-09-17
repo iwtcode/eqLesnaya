@@ -144,6 +144,16 @@ func (s *DoctorService) CompleteAppointment(ticketID uint) (*models.Ticket, erro
 	return ticket, nil
 }
 
+// GetAllDoctorQueuesState получает данные для нового общего табло очереди к врачам.
+func (s *DoctorService) GetAllDoctorQueuesState() ([]models.DoctorQueueTicketResponse, error) {
+	queue, err := s.ticketRepo.FindAllTicketsForDoctorQueues()
+	if err != nil {
+		logger.Default().WithError(err).Error("Ошибка получения очередей ко всем кабинетам")
+		return nil, err
+	}
+	return queue, nil
+}
+
 // GetDoctorScreenState находит расписание врача и полную очередь к его кабинету.
 // Если расписание на сегодня не найдено, возвращает nil для schedule и пустую очередь, но без ошибки.
 func (s *DoctorService) GetDoctorScreenState(cabinetNumber int) (*models.Schedule, []models.DoctorQueueTicketResponse, error) {

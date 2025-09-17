@@ -50,6 +50,7 @@ type TicketRepository interface {
 	FindByStatusAndDoctor(status models.TicketStatus, doctorID uint) ([]models.Ticket, error)
 	GetDailyReport(date time.Time) ([]models.DailyReportRow, error)
 	FindForRegistrar(statuses []models.TicketStatus, categoryPrefixes []string) ([]models.RegistrarTicketResponse, error)
+	FindAllTicketsForDoctorQueues() ([]models.DoctorQueueTicketResponse, error)
 }
 
 // ScheduleRepository определяет методы для взаимодействия с расписанием.

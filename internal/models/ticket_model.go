@@ -51,10 +51,11 @@ type RegistrarTicketResponse struct {
 
 // DoctorQueueTicketResponse определяет структуру для одного элемента в очереди к врачу.
 type DoctorQueueTicketResponse struct {
-	StartTime       string       `gorm:"column:start_time" json:"start_time"`
-	TicketNumber    string       `gorm:"column:ticket_number" json:"ticket_number"`
-	PatientFullName string       `gorm:"column:full_name" json:"patient_full_name"`
-	Status          TicketStatus `gorm:"column:status" json:"status"`
+	CabinetNumber    *int         `json:"cabinet_number,omitempty" gorm:"column:cabinet_number"`
+	StartTime       string       `json:"start_time,omitempty" gorm:"column:start_time"`
+	TicketNumber    string       `json:"ticket_number" gorm:"column:ticket_number"`
+	PatientFullName string       `json:"patient_full_name" gorm:"column:full_name"`
+	Status          TicketStatus `json:"status" gorm:"column:status"`
 }
 
 // DailyReportRow представляет одну строку в ежедневном отчете по талонам.

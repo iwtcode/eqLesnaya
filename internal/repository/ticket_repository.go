@@ -161,11 +161,6 @@ func (r *ticketRepo) FindAllTicketsForDoctorQueues() ([]models.DoctorQueueTicket
 	var results []models.DoctorQueueTicketResponse
 	today := time.Now().Format("2006-01-02")
 
-	// Этот запрос объединяет информацию из нескольких таблиц:
-	// - tickets: для номера талона и статуса
-	// - appointments: для связи талона с расписанием
-	// - schedules: для получения номера кабинета и привязки к дате
-	// - patients: для получения ФИО пациента (если он есть)
 	err := r.db.Table("tickets").
 		Select("schedules.cabinet as cabinet_number, tickets.ticket_number, COALESCE(patients.full_name, 'Пациент по талону') as full_name, tickets.status").
 		Joins("JOIN appointments ON appointments.ticket_id = tickets.ticket_id").

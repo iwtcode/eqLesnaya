@@ -21,7 +21,7 @@ func NewCleanupService(repo repository.CleanupRepository) *CleanupService {
 
 // CleanTickets удаляет завершенные tickets и осиротевшие appointments
 func (s *CleanupService) CleanTickets() error {
-	s.log.Info("Начинаю очистку завершенных tickets и осиротевших appointments")
+	s.log.Info("Начинаю очистку tickets")
 
 	// Получаем количество завершенных tickets
 	ticketsCount, err := s.repo.GetTicketsCount()

@@ -176,6 +176,7 @@ func setupRouter(broker *pubsub.Broker, db *gorm.DB, cfg *config.Config, process
 	scheduleService := services.NewScheduleService(repo.Schedule, repo.Doctor)
 	adService := services.NewAdService(repo.Ad)
 	registrarService := services.NewRegistrarService(repo.RegistrarPriority, repo.Service)
+	oneCService := services.NewOneCService(cfg.OneCURL)
 
 	go tasksTimerService.Start(context.Background())
 
@@ -190,6 +191,7 @@ func setupRouter(broker *pubsub.Broker, db *gorm.DB, cfg *config.Config, process
 	scheduleHandler := handlers.NewScheduleHandler(scheduleService, broker)
 	processHandler := handlers.NewBusinessProcessHandler(processService)
 	adHandler := handlers.NewAdHandler(adService)
+	oneCHandler := handlers.NewOneCHandler(oneCService)
 
 	r.GET("/tickets", middleware.CheckBusinessProcess(processService, "reception"), sseHandler(broker, "reception_sse"))
 
@@ -284,6 +286,13 @@ func setupRouter(broker *pubsub.Broker, db *gorm.DB, cfg *config.Config, process
 		dbAPI.POST("/:table/insert", databaseHandler.InsertData)
 		dbAPI.PATCH("/:table/update", databaseHandler.UpdateData)
 		dbAPI.DELETE("/:table/delete", databaseHandler.DeleteData)
+	}
+
+	// New routes for 1C
+	oneC := r.Group("/api/1c").Use(middleware.RequireAPIKey(cfg.ExternalAPIKey))
+	{
+		oneC.GET("/getschedule", oneCHandler.GetSchedule)
+		oneC.GET("/getdoctorschedule", oneCHandler.GetDoctorSchedule)
 	}
 
 	processes := r.Group("/api/processes")

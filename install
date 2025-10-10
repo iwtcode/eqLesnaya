@@ -431,7 +431,7 @@ if [[ "$FLUTTER_MODE" == "true" ]]; then
       echo "    Using base href: '$BASE_HREF_VALUE'"
       echo "    Output directory: '$OUTPUT_DIR'"
       
-      if ! MSYS_NO_PATHCONV=1 flutter build web --release -t "lib/$MAIN_FILE" --output "$OUTPUT_DIR" --base-href="$BASE_HREF_VALUE"; then
+      if ! MSYS_NO_PATHCONV=1 flutter build web --release -t "lib/$MAIN_FILE" --output "$OUTPUT_DIR" --base-href="$BASE_HREF_VALUE" --no-web-resources-cdn; then
         echo "Failed to build '$BASE_HREF_PATH'."
         exit 1
       fi
@@ -502,7 +502,7 @@ COPY . .
 
 ARG TARGET_MAIN
 ARG BASE_HREF_VALUE # Добавляем аргумент для base_href
-RUN flutter build web --release -t lib/\${TARGET_MAIN} --base-href=\${BASE_HREF_VALUE}
+RUN flutter build web --release -t lib/\${TARGET_MAIN} --base-href=\${BASE_HREF_VALUE} --no-web-resources-cdn
 
 FROM nginx:alpine
 COPY --from=build /app/build/web /usr/share/nginx/html

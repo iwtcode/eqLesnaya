@@ -164,8 +164,9 @@ func setupRouter(broker *pubsub.Broker, db *gorm.DB, cfg *config.Config, process
 	}
 
 	repo := repository.NewRepository(db)
+	oneCService := services.NewOneCService(cfg.OneCURL)
 
-	ticketService := services.NewTicketService(repo.Ticket, repo.Service, repo.ReceptionLog, repo.Patient, repo.Appointment, repo.RegistrarPriority)
+	ticketService := services.NewTicketService(repo.Ticket, repo.Service, repo.ReceptionLog, repo.Patient, repo.Appointment, repo.RegistrarPriority, oneCService)
 	doctorService := services.NewDoctorService(repo.Ticket, repo.Doctor, repo.Schedule, broker)
 	authService := services.NewAuthService(repo.Registrar, repo.Doctor, repo.Administrator, jwtManager)
 	databaseService := services.NewDatabaseService(repository.NewDatabaseRepository(db))
@@ -176,7 +177,6 @@ func setupRouter(broker *pubsub.Broker, db *gorm.DB, cfg *config.Config, process
 	scheduleService := services.NewScheduleService(repo.Schedule, repo.Doctor)
 	adService := services.NewAdService(repo.Ad)
 	registrarService := services.NewRegistrarService(repo.RegistrarPriority, repo.Service)
-	oneCService := services.NewOneCService(cfg.OneCURL)
 
 	go tasksTimerService.Start(context.Background())
 

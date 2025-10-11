@@ -459,6 +459,8 @@ definitions:
     type: object
   models.Ticket:
     properties:
+      appointment_time:
+        type: string
       called_at:
         type: string
       completed_at:
@@ -484,6 +486,8 @@ definitions:
     type: object
   models.TicketResponse:
     properties:
+      appointment_time:
+        type: string
       called_at:
         type: string
       completed_at:

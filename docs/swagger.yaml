@@ -1065,7 +1065,7 @@ paths:
     get:
       description: Возвращает список всех включенных рекламных материалов с изображениями.
       parameters:
-      - description: Тип экрана ('reception' или 'schedule')
+      - description: Тип экрана ('reception', 'schedule' или 'queue_doctor')
         in: query
         name: screen
         required: true

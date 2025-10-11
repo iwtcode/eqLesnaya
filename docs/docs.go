@@ -719,7 +719,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Тип экрана ('reception' или 'schedule')",
+                        "description": "Тип экрана ('reception', 'schedule' или 'queue_doctor')",
                         "name": "screen",
                         "in": "query",
                         "required": true

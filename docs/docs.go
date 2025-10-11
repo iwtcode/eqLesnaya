@@ -3371,6 +3371,9 @@ const docTemplate = `{
         "models.Ticket": {
             "type": "object",
             "properties": {
+                "appointment_time": {
+                    "type": "string"
+                },
                 "called_at": {
                     "type": "string"
                 },
@@ -3409,6 +3412,9 @@ const docTemplate = `{
         "models.TicketResponse": {
             "type": "object",
             "properties": {
+                "appointment_time": {
+                    "type": "string"
+                },
                 "called_at": {
                     "type": "string"
                 },
